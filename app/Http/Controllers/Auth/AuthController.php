@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\StoreUserRequest;
 use App\Http\Resources\Auth\AuthResource;
 use App\Services\Auth\AuthService;
@@ -21,6 +22,16 @@ class AuthController extends Controller
             new AuthResource($data),
             'User registered with success!',
             201
+        );
+    }
+
+    public function login(LoginUserRequest $request) {
+
+        $data = $this->authService->login($request->validated());
+        return ApiResponse::success(
+            $data,
+            'User logged with success!',
+            200
         );
     }
 }
