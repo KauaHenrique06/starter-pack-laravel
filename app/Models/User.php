@@ -7,11 +7,13 @@ namespace App\Models;
 use App\Traits\HasUuidV7;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasUuidV7;
@@ -61,6 +63,10 @@ class User extends Authenticatable
 
     public function getJWTCustomClaims() {
         return [];
+    }
+
+    public function role(): HasOne {
+        return $this->hasOne(Role::class);
     }
 
 }

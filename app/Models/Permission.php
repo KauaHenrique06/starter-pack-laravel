@@ -11,4 +11,10 @@ class Permission extends SpatiePermission
     use HasUuidV7, HasFactory;
 
     protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = [
+        'name',
+        'guard_name'
+    ];
 }
