@@ -2,6 +2,7 @@
 
 namespace App\Services\Role;
 
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 
@@ -55,5 +56,33 @@ class RoleService {
 
         return $role->delete();
 
+    }
+
+    public function storePermissionToRole(array $data, Role $role) {
+
+        return DB::transaction(function() use ($data, $role) {
+
+            foreach($data['permissions'] as $permission) {
+                $role->permissions()->syncWithoutDetaching($permission);
+            }
+
+            return $role->load(['permissions']);
+
+            // $role->firstOrFail();
+            // // dd($role);
+            // foreach($data['permissions'] ?? [] as $permission) {
+
+            //     if(isset($permission['permission_id'])) {
+            //         $role->permissions()->syncWithoutDetaching($permission['permission_id'],
+            //         [
+            //             'role_id' => $role->id,
+            //             'permission_id' => $permission['permission_id']
+            //         ]);
+            //     }
+            // }
+
+            // return $role->load(['permissions']);
+
+        });
     }
 }

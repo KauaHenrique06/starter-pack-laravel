@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Role;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\StorePermissionToRoleRequest;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\Role\RoleResource;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Services\Role\RoleService;
 use App\Support\ApiResponse;
@@ -33,7 +35,6 @@ class RoleController extends Controller
             'Role created with success!',
             201
         );
-
     }
 
     public function show(Role $role) {
@@ -44,7 +45,6 @@ class RoleController extends Controller
             'Role indexed with success!',
             200
         );
-
     }
 
     public function update(UpdateRoleRequest $request, Role $role) {
@@ -55,7 +55,6 @@ class RoleController extends Controller
             'Role updated with success!',
             200
         );
-
     }
 
     public function destroy(Role $role) {
@@ -66,6 +65,16 @@ class RoleController extends Controller
             'Role deleted with success!',
             200
         );
-
     }
+
+    public function storePermissionToRole(Role $role, StorePermissionToRoleRequest $request) {
+
+        $data = $this->roleService->storePermissionToRole($request->validated(), $role);
+        return ApiResponse::success(
+            new RoleResource($data),
+            'Permissions signed to role with success!',
+            200
+        );
+    }
+
 }

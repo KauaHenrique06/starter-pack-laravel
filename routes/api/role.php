@@ -9,5 +9,6 @@ Route::middleware('auth:api')->group(function() {
     Route::get('/{role}', [RoleController::class, 'show'])->middleware('can:role.view');
     Route::patch('/{role}', [RoleController::class, 'update'])->middleware('can:role.update');
     Route::delete('/{role}', [RoleController::class, 'destroy'])->middleware('can:role.delete');
+    Route::post('{role}/permission', [RoleController::class, 'storePermissionToRole'])->middleware('can:role.assignPermission');
 });
 
