@@ -6,9 +6,11 @@ use App\Http\Resources\Auth\AuthResource;
 use App\Models\User;
 use App\Models\Role;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService {
@@ -39,8 +41,7 @@ class AuthService {
             ];
         }
 
-        throw new Exception('Invalid email or password');
-
+        throw new AuthenticationException();
     }
 
     public function logout() {

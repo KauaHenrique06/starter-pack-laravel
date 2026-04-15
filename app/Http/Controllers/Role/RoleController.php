@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StorePermissionToRoleRequest;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Http\Resources\Auth\AuthResource;
 use App\Http\Resources\Role\RoleResource;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use App\Services\Role\RoleService;
 use App\Support\ApiResponse;
 
@@ -72,7 +74,17 @@ class RoleController extends Controller
         $data = $this->roleService->storePermissionToRole($request->validated(), $role);
         return ApiResponse::success(
             new RoleResource($data),
-            'Permissions signed to role with success!',
+            'Permissions assigned to role with success!',
+            200
+        );
+    }
+
+    public function storeRoleToUser(User $user, Role $role) {
+
+        $data = $this->roleService->storeRoleToUser($user, $role);
+        return ApiResponse::success(
+            new AuthResource($data),
+            'Role assigned for user with success!',
             200
         );
     }

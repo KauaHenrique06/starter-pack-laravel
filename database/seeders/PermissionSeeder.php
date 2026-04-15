@@ -27,6 +27,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'role.update', 'guard_name' => 'api'],
             ['name' => 'role.delete', 'guard_name' => 'api'],
             ['name' => 'role.assignPermission', 'guard_name' => 'api'],
+            ['name' => 'assignRole', 'guard_name' => 'api'],
 
             ['name' => 'permission.view', 'guard_name' => 'api'],
             ['name' => 'permission.store', 'guard_name' => 'api'],

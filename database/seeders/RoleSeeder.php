@@ -21,7 +21,8 @@ class RoleSeeder extends Seeder
             'view',
             'store',
             'delete',
-            'update'
+            'update',
+            'assignRole'
         ]);
     }
 }

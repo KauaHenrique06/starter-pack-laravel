@@ -4,6 +4,7 @@ namespace App\Services\Role;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class RoleService {
@@ -84,5 +85,21 @@ class RoleService {
             // return $role->load(['permissions']);
 
         });
+    }
+
+    public function storeRoleToUser(User $user, Role $role) {
+
+        return DB::transaction(function() use ($user, $role) {
+
+            /**
+             * Retira a role antiga e atualiza pra nova,
+             * se quiser que tenha mais roles usar o assignRole()
+             *  */
+            $user->syncRoles($role);
+
+            return $user->load(['roles']);
+
+        });
+
     }
 }

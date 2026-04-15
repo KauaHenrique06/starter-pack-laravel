@@ -26,27 +26,31 @@ return Application::configure(basePath: dirname(__DIR__))
 
             if($e instanceof AuthenticationException) {
                 return ApiResponse::error(
-                    'Your credentials are invalid!',
+                    null,
+                    "Your credentials are invalid!: " . $e->getMessage(),
                     401
                 );
             }
 
             if($e instanceof AuthorizationException) {
                 return ApiResponse::error(
-                    "You don't have permission for this action!",
+                    null,
+                    "You don't have permission for make this action!" . $e->getMessage(),
                     403
                 );
             }
 
             if($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
                 return ApiResponse::error(
-                    "Resources not found!",
+                    null,
+                    "Resources not found!: " . $e->getMessage(),
                     404
                 );
             }
 
             if($e instanceof ValidationException) {
                 return ApiResponse::error(
+                    null,
                     $e->getMessage(),
                     422
                 );
@@ -54,17 +58,19 @@ return Application::configure(basePath: dirname(__DIR__))
 
             if($e instanceof MethodNotAllowedHttpException) {
                 return ApiResponse::error(
-                    'This method is invalid!',
+                    null,
+                    "Route not found!: " . $e->getMessage(),
                     405
                 );
             }
 
-            if($e instanceof Throwable || $e instanceof Exception) {
-                return ApiResponse::error(
-                    "Server internal error!",
-                    500
-                );
-            }
+            // if($e instanceof Throwable || $e instanceof Exception) {
+            //     return ApiResponse::error(
+            //         null,
+            //         "Server internal error!",
+            //         500
+            //     );
+            // }
         });
     })->create();
 
