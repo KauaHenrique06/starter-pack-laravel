@@ -19,9 +19,11 @@ return new class extends Migration
             $table->string('neighborhood');
             $table->char('state', 2);
             $table->string('city');
-            $table->text('reference')->nullable();
-            $table->string('complement');
+            $table->string('reference')->nullable();
+            $table->string('complement')->nullable();
             $table->char('zip_code', 8);
+            $table->decimal('latitude', 10,2)->nullable();
+            $table->decimal('longitude', 11,2)->nullable();
 
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
 

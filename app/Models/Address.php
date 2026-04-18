@@ -14,7 +14,17 @@ class Address extends Model
     public $incrementing = false;
 
     protected $fillable = [
-
+        'street',
+        'number',
+        'neighborhood',
+        'state',
+        'city',
+        'reference',
+        'complement',
+        'zip_code',
+        'latitude',
+        'longitude',
+        'user_id'
     ];
 
     public function user(): BelongsTo {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Address;
 
+use App\Rules\ValidCpfRule;
+use App\Rules\ValidZipCodeRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,7 +14,7 @@ class StoreAddressRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +25,27 @@ class StoreAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            'number' => [
+                'required',
+                'integer'
+            ],
+            'reference' => [
+                'string',
+                'nullable',
+                'max:255'
+            ],
+            'complement' => [
+                'nullable',
+                'string',
+                'max:255'
+            ],
+            'zip_code' => [
+                'required',
+                'string',
+                new ValidZipCodeRule
+            ],
+
         ];
     }
 }

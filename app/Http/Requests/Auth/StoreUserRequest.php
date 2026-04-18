@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\ValidCpfRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
@@ -33,6 +34,12 @@ class StoreUserRequest extends FormRequest
                 'required',
                 'email',
                 'unique:users,email',
+            ],
+            'cpf' => [
+                'required',
+                'string',
+                'unique:users,cpf',
+                new ValidCpfRule
             ],
             'password' => [
                 'required',

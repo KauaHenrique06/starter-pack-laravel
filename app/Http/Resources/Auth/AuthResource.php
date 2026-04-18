@@ -20,6 +20,7 @@ class AuthResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
+            'cpf' => $this->cpf,
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
             // 'permissions' => PermissionResource::collection($this->whenLoaded('permissions'))
         ];
