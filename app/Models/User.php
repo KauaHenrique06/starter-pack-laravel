@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Traits\HasUuidV7;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -62,6 +62,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims() {
         return [];
+    }
+
+    public function adreesses(): HasMany {
+        return $this->hasMany(Address::class);
     }
 
 }

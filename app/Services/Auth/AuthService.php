@@ -34,6 +34,7 @@ class AuthService {
             $refreshTokenInSec = Config::get('jwt.refresh_ttl') * 60;
             $token = JWTAuth::fromUser($user);
 
+            $user->load(['roles', 'permissions']);
             return [
                 'user' => new AuthResource($user),
                 'token' => $token,
