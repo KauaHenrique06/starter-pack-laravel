@@ -34,4 +34,26 @@ class AuthController extends Controller
             200
         );
     }
+
+    public function me() {
+
+        $data = $this->authService->me();
+        return ApiResponse::success(
+            new AuthResource($data),
+            'Profile loaded with success',
+            200
+        );
+
+    }
+
+    public function refreshToken() {
+
+        $data = $this->authService->refreshToken();
+        return ApiResponse::success(
+            $data,
+            'Token refreshed with success!',
+            200
+        );
+
+    }
 }

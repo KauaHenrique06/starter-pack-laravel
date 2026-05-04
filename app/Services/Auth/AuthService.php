@@ -4,18 +4,15 @@ namespace App\Services\Auth;
 
 use App\Http\Resources\Auth\AuthResource;
 use App\Models\User;
-use App\Models\Role;
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService {
 
-    public function register(array $data) {
+    public function register(array $data): array {
 
         return DB::transaction(function() use ($data) {
 
@@ -25,7 +22,7 @@ class AuthService {
         });
     }
 
-    public function login(array $data) {
+    public function login(array $data): array {
 
         $user = User::where('email', $data['email'])->first();
 
@@ -45,13 +42,23 @@ class AuthService {
         throw new AuthenticationException();
     }
 
-    public function logout() {
+    public function me(): User {
 
         $authUser = Auth::user();
+        $authUser->load('addresses', 'roles', 'permissions');
+        return $authUser;
 
     }
 
-    public function me() {
-        //
+    public function refreshToken() {
+
+        $refreshTokenInSec = Config::get('jwt.refresh_ttl') * 60;
+        $token = auth('api')->refresh();
+
+        return [
+            'token' => $token,
+            'refresh_in' => $refreshTokenInSec
+        ];
+
     }
 }
