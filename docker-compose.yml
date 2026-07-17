@@ -15,8 +15,8 @@ services:
   db:
     image: postgres:17-alpine
     environment:
-      POSTGRES_DB: anziano_db
-      POSTGRES_USER: anziano
+      POSTGRES_DB: StarterPack
+      POSTGRES_USER: root
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"

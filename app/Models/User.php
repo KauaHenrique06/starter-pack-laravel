@@ -18,10 +18,6 @@ class User extends Authenticatable implements JWTSubject
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRoles, HasUuidV7;
 
-    protected $keyType = 'string';
-    public $incrementing = false;
-    protected $guard_name = 'api';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -63,10 +59,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims() {
         return [];
-    }
-
-    public function addresses(): HasMany {
-        return $this->hasMany(Address::class);
     }
 
 }
