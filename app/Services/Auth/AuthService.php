@@ -3,20 +3,26 @@
 namespace App\Services\Auth;
 
 use App\Http\Resources\Auth\AuthResource;
+use App\Jobs\SendWelcomeEmail;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService {
 
-    public function register(array $data): array {
+    public function register(array $data): User {
 
         return DB::transaction(function() use ($data) {
 
             $user = User::create($data);
+            $user->refresh();
+
+            SendWelcomeEmail::dispatch($user);
 
             return $user;
         });

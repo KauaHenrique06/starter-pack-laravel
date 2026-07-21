@@ -9,8 +9,10 @@
         "php": "^8.2",
         "dedoc/scramble": "^0.13.35",
         "laravel/framework": "^12.0",
+        "laravel/horizon": "^5.48",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "predis/predis": "^3.5",
         "spatie/laravel-permission": "^6.25",
         "tymon/jwt-auth": "^2.3"
     },
