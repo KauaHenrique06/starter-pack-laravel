@@ -3,14 +3,15 @@
 namespace App\Services\Auth;
 
 use App\Http\Resources\Auth\AuthResource;
+use App\Jobs\SendForgotPasswordMail;
 use App\Jobs\SendWelcomeEmail;
-use App\Mail\WelcomeMail;
+use App\Models\ForgotPassword;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService {

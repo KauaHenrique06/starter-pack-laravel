@@ -8,7 +8,6 @@ use App\Http\Requests\Auth\StoreUserRequest;
 use App\Http\Resources\Auth\AuthResource;
 use App\Services\Auth\AuthService;
 use App\Support\ApiResponse;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\User;
 
-use App\Rules\ValidCpfRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class StoreUserRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,29 +24,25 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255'
-            ],
-            'email' => [
-                'required',
-                'email',
-                'unique:users,email',
-            ],
-            'cpf' => [
-                'required',
-                'string',
-                'unique:users,cpf',
-                new ValidCpfRule
-            ],
             'password' => [
                 'required',
                 Password::min(6)
                     ->mixedCase()
-                    ->symbols()
                     ->numbers()
+                    ->symbols()
+            ],
+            'token' => [
+                'required',
+                'uuid',
+                'exists:forgot_passwords,access_token'
             ]
+        ];
+    }
+
+    public function attributes() {
+        return [
+            'password' => 'Senha',
+            'token' => 'Token'
         ];
     }
 }
