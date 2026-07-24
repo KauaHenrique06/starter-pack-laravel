@@ -6,6 +6,7 @@ use App\Http\Resources\Auth\AuthResource;
 use App\Jobs\SendForgotPasswordMail;
 use App\Jobs\SendWelcomeEmail;
 use App\Models\ForgotPassword;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
@@ -18,10 +19,26 @@ class AuthService {
 
     public function register(array $data): User {
 
-        return DB::transaction(function() use ($data) {
+        $usersToNotificate = User::whereHas('roles', function($query) {
+            $query->whereIn('name', ['admin']);
+        })->pluck('id')->toArray();
+
+        return DB::transaction(function() use ($data, $usersToNotificate) {
 
             $user = User::create($data);
             $user->refresh();
+
+            foreach($usersToNotificate as $id) {
+                Notification::create([
+                    'user_id' => $id,
+                    'type' => 'new_user',
+                    'message' => "User {$user->name} has just registered in the system!",
+                    'data' => [
+                        'new_user_id' => $user->id,
+                        'user_notified_id' => $id
+                    ]
+                ]);
+            }
 
             SendWelcomeEmail::dispatch($user);
 
