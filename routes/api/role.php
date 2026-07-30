@@ -3,7 +3,7 @@
 use App\Http\Controllers\Role\RoleController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->group(function() {
+Route::middleware('auth.api')->group(function() {
     Route::get('/', [RoleController::class, 'index'])->middleware('can:role.view');
     Route::post('/', [RoleController::class, 'store'])->middleware('can:role.store');
     Route::get('/{role}', [RoleController::class, 'show'])->middleware('can:role.view');
